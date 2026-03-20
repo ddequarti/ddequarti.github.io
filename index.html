@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dario De Quarti — PhD Candidate in Economics</title>
+  <meta name="description" content="PhD Candidate in Economics at the Geneva Graduate Institute. Research in Development Economics and Trade." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ─────────────────────────────────── */
+    :root {
+      --bg:        #faf6ee;
+      --bg2:       #f3eddf;
+      --ink:       #1a1814;
+      --ink2:      #5e5548;
+      --ink3:      #9a9080;
+      --accent:    #2a4a7f;
+      --accent2:   #c8502a;
+      --border:    rgba(26,24,20,0.12);
+      --border2:   rgba(26,24,20,0.06);
+      --serif:     'EB Garamond', Georgia, serif;
+      --mono:      'DM Mono', monospace;
+      --sans:      'Instrument Sans', system-ui, sans-serif;
+      --r:         6px;
+      --ease:      cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    [data-theme="dark"] {
+      --bg:        #12100a;
+      --bg2:       #1c1810;
+      --ink:       #f0ece0;
+      --ink2:      #a09a8e;
+      --ink3:      #605c55;
+      --accent:    #6a9fd8;
+      --accent2:   #e8784a;
+      --border:    rgba(240,236,224,0.1);
+      --border2:   rgba(240,236,224,0.05);
+    }
+
+    /* ── RESET ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.7;
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ── GRAIN OVERLAY ──────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      background-size: 180px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    /* ── NAV ────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(250,246,238,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    [data-theme="dark"] nav { background: rgba(17,16,8,0.88); }
+    .nav-name {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--ink2);
+      letter-spacing: 0.04em;
+    }
+    .nav-name span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink2);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 100%;
+      height: 1px;
+      background: var(--accent);
+      transition: right 0.25s var(--ease);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { right: 0; }
+    .theme-btn {
+      background: none;
+      border: 0.5px solid var(--border);
+      border-radius: 50%;
+      width: 30px; height: 30px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink2);
+      font-size: 14px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .theme-btn:hover { background: var(--bg2); border-color: var(--border2); }
+
+    /* ── HERO ───────────────────────────────────── */
+    .hero-wrapper {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url('pictures/vic_falls.jpg') center center / cover no-repeat;
+      opacity: 0.08;
+      filter: grayscale(30%);
+      transition: opacity 0.3s;
+    }
+    [data-theme="dark"] .hero-bg {
+      opacity: 0.06;
+      filter: grayscale(40%) brightness(0.8);
+    }
+    #home {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 clamp(1.5rem, 5vw, 5rem);
+      padding-top: 56px;
+      gap: 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .hero-left { padding: 4rem 0; }
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    h1 em { font-style: italic; color: var(--accent2); }
+    .hero-bio {
+      font-size: 1.05rem;
+      color: var(--ink2);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 1rem;
+    }
+    .hero-bio:last-of-type { margin-bottom: 2rem; }
+    .hero-bio strong { color: var(--ink); font-weight: 500; }
+    .hero-bio a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+    .hero-bio a:hover { border-bottom-color: var(--accent); }
+    .hero-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--r);
+      letter-spacing: 0.02em;
+      transition: all 0.2s var(--ease);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+    }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink2);
+      border: 0.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--ink2); color: var(--ink); transform: translateY(-1px); }
+
+    /* Hero photo */
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+    .photo-frame {
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 3/4;
+      border-radius: 2px;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      overflow: hidden;
+    }
+    .photo-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .affiliation-badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink3);
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.8rem;
+      border: 0.5px solid var(--border);
+      border-radius: 20px;
+      background: var(--bg2);
+    }
+
+    /* ── SECTION BASE ───────────────────────────── */
+    section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 0.5px solid var(--border);
+      padding-bottom: 1rem;
+    }
+    .section-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink3);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── RESEARCH ───────────────────────────────── */
+    #research { background: var(--bg); }
+    .research-subsection {
+      margin-bottom: 2.5rem;
+    }
+    .research-subsection:last-child { margin-bottom: 0; }
+    .research-sub-title {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 0.5px solid var(--border2);
+    }
+    .paper-list { display: flex; flex-direction: column; gap: 0; }
+    .paper-item {
+      padding: 1.25rem 0;
+      border-bottom: 0.5px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .paper-item:first-child { border-top: 0.5px solid var(--border); }
+    .paper-item:hover { background: var(--bg2); margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; border-radius: var(--r); }
+    .paper-item.no-expand { cursor: default; }
+    .paper-status {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-weight: 500;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 3px;
+    }
+    .status-wp  { background: #eef4ff; color: #2a4a7f; border: 0.5px solid #b8cef0; }
+    .status-prog{ background: #fdf6ec; color: #8a5010; border: 0.5px solid #e8c880; }
+    .status-policy{ background: #f3eef8; color: #5a3a8a; border: 0.5px solid #c0a8e0; }
+    [data-theme="dark"] .status-wp  { background: #0d1830; color: #6a9fd8; border-color: #2a3a60; }
+    [data-theme="dark"] .status-prog{ background: #201508; color: #d8942a; border-color: #4a3010; }
+    [data-theme="dark"] .status-policy{ background: #1a1028; color: #a888d8; border-color: #3a2860; }
+    .paper-title {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+      font-style: italic;
+    }
+    .paper-coauthors {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--ink3);
+      margin-bottom: 0.3rem;
+    }
+    .paper-abstract-preview {
+      font-size: 0.88rem;
+      color: var(--ink2);
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s var(--ease), opacity 0.3s;
+      opacity: 0;
+    }
+    .paper-item.open .paper-abstract-preview { max-height: 400px; opacity: 1; }
+    .paper-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s var(--ease), opacity 0.3s 0.1s;
+    }
+    .paper-item.open .paper-links { max-height: 60px; opacity: 1; }
+    /* For items that always show links */
+    .paper-links.always-visible {
+      max-height: 60px;
+      opacity: 1;
+      overflow: visible;
+    }
+    .paper-link-btn {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 0.3rem 0.75rem;
+      border: 0.5px solid var(--border);
+      border-radius: 20px;
+      color: var(--ink2);
+      letter-spacing: 0.03em;
+      transition: all 0.15s;
+    }
+    .paper-link-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .paper-expand-icon {
+      align-self: center;
+      font-size: 18px;
+      color: var(--ink3);
+      transition: transform 0.3s var(--ease);
+      flex-shrink: 0;
+    }
+    .paper-item.open .paper-expand-icon { transform: rotate(45deg); }
+
+    /* Hover preview image for ongoing research */
+    .paper-with-preview {
+      position: relative;
+    }
+    .paper-preview-img {
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 8px);
+      transform: translateY(6px) scale(0.96);
+      width: 260px;
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 0.5px solid var(--border);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s var(--ease);
+      z-index: 8;
+    }
+    .paper-with-preview:hover .paper-preview-img {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .paper-preview-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── FIELDS / CHIPS ─────────────────────────── */
+    .fields-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+    .field-chip {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      color: var(--ink2);
+      background: var(--bg2);
+    }
+
+    /* ── TIMELINE / RECENT WORK ─────────────────── */
+    #timeline {
+      background: var(--bg2);
+      max-width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) 0;
+      padding-bottom: clamp(4rem, 8vw, 6rem);
+      overflow: visible;
+    }
+    #timeline .section-header {
+      max-width: 1100px;
+      margin: 0 auto 2.5rem auto;
+      padding-left: clamp(1.5rem, 5vw, 5rem);
+      padding-right: clamp(1.5rem, 5vw, 5rem);
+    }
+
+    .timeline-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      padding: 0 3.5rem;
+    }
+
+    /* Navigation arrows */
+    .tl-arrow {
+      position: absolute;
+      top: 8px;
+      z-index: 5;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--ink2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s var(--ease);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .tl-arrow:hover {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+      transform: scale(1.1);
+    }
+    .tl-arrow.disabled {
+      opacity: 0.25;
+      cursor: default;
+      pointer-events: none;
+    }
+    .tl-arrow-left { left: 0; }
+    .tl-arrow-right { right: 0; }
+
+    .timeline-viewport {
+      overflow-x: clip;
+      overflow-y: visible;
+      position: relative;
+    }
+    .timeline-track {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      transition: transform 0.4s var(--ease);
+      padding: 0 0.5rem;
+    }
+    /* The horizontal line — drawn on viewport so it doesn't inflate scrollWidth */
+    .timeline-viewport::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--border);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .tl-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 130px;
+      padding: 0 0.6rem;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+    /* The dot */
+    .tl-dot {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2.5px solid var(--accent);
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
+      transition: all 0.25s var(--ease);
+      flex-shrink: 0;
+    }
+    .tl-dot:hover,
+    .tl-item:hover .tl-dot {
+      background: var(--accent);
+      transform: scale(1.3);
+      box-shadow: 0 0 0 4px rgba(42,74,127,0.15);
+    }
+    .tl-dot.dot-grant { border-color: #2a8a5a; }
+    .tl-dot.dot-grant:hover, .tl-item:hover .tl-dot.dot-grant { background: #2a8a5a; box-shadow: 0 0 0 4px rgba(42,138,90,0.15); }
+    .tl-dot.dot-fellowship { border-color: var(--accent2); }
+    .tl-dot.dot-fellowship:hover, .tl-item:hover .tl-dot.dot-fellowship { background: var(--accent2); box-shadow: 0 0 0 4px rgba(200,80,42,0.15); }
+    .tl-dot.dot-publication { border-color: #5a3a8a; }
+    .tl-dot.dot-publication:hover, .tl-item:hover .tl-dot.dot-publication { background: #5a3a8a; box-shadow: 0 0 0 4px rgba(90,58,138,0.15); }
+    .tl-dot.dot-event { border-color: var(--ink3); }
+    .tl-dot.dot-event:hover, .tl-item:hover .tl-dot.dot-event { background: var(--ink3); box-shadow: 0 0 0 4px rgba(154,150,144,0.15); }
+
+    [data-theme="dark"] .tl-dot { background: var(--bg2); }
+    [data-theme="dark"] .tl-dot.dot-grant { border-color: #4ac88a; }
+    [data-theme="dark"] .tl-dot.dot-grant:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-grant { background: #4ac88a; }
+    [data-theme="dark"] .tl-dot.dot-fellowship { border-color: #e8784a; }
+    [data-theme="dark"] .tl-dot.dot-fellowship:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-fellowship { background: #e8784a; }
+    [data-theme="dark"] .tl-dot.dot-publication { border-color: #a888d8; }
+    [data-theme="dark"] .tl-dot.dot-publication:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-publication { background: #a888d8; }
+    [data-theme="dark"] .tl-arrow { background: var(--bg2); }
+
+    .tl-date {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink3);
+      letter-spacing: 0.08em;
+      margin-top: 0.7rem;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .tl-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink2);
+      margin-top: 0.3rem;
+      text-align: center;
+      max-width: 140px;
+      line-height: 1.3;
+    }
+
+    /* Popup card — appears ABOVE the dot */
+    .tl-popup {
+      position: absolute;
+      bottom: calc(100% + 0.8rem);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 1rem;
+      min-width: 240px;
+      max-width: 300px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s var(--ease);
+      z-index: 10;
+    }
+    .tl-item:hover .tl-popup {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .tl-popup-title {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+    .tl-popup-desc {
+      font-size: 0.82rem;
+      color: var(--ink2);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .tl-popup-img {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      border: 0.5px solid var(--border2);
+    }
+    .tl-popup-link {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .tl-popup-link:hover { text-decoration: underline; }
+    .tl-popup-badge {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Year separator labels */
+    .tl-year-label {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 50px;
+      padding: 0 0.3rem;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+    .tl-year-label span {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--bg2);
+      padding: 0 0.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Timeline legend */
+    .tl-legend {
+      max-width: 1100px;
+      margin: 1.5rem auto 0 auto;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0 clamp(1.5rem, 5vw, 5rem);
+    }
+    .tl-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--ink3);
+    }
+    .tl-legend-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    .tl-legend-dot.lg-grant { background: #2a8a5a; }
+    .tl-legend-dot.lg-fellowship { background: var(--accent2); }
+    .tl-legend-dot.lg-publication { background: #5a3a8a; }
+    .tl-legend-dot.lg-event { background: var(--ink3); }
+
+    /* ── TEACHING ──────────────────────────────── */
+    #teaching { background: var(--bg); }
+    #teaching .cv-block { max-width: 700px; }
+
+    /* ── FOOTBALL CAROUSEL ─────────────────────── */
+    #football {
+      background: var(--bg2);
+    }
+    .carousel-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 340px;
+      perspective: 800px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+    .carousel-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-slide {
+      position: absolute;
+      width: 380px;
+      height: 280px;
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 0.5px solid var(--border);
+      cursor: pointer;
+      transition: all 0.5s var(--ease);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Center slide */
+    .carousel-slide[data-pos="0"] {
+      z-index: 3;
+      transform: translateX(0) scale(1);
+      opacity: 1;
+      filter: none;
+    }
+    /* Right neighbor */
+    .carousel-slide[data-pos="1"] {
+      z-index: 2;
+      transform: translateX(65%) scale(0.82);
+      opacity: 0.6;
+      filter: blur(1.5px) grayscale(20%);
+    }
+    /* Left neighbor */
+    .carousel-slide[data-pos="-1"] {
+      z-index: 2;
+      transform: translateX(-65%) scale(0.82);
+      opacity: 0.6;
+      filter: blur(1.5px) grayscale(20%);
+    }
+    /* Further right */
+    .carousel-slide[data-pos="2"] {
+      z-index: 1;
+      transform: translateX(115%) scale(0.65);
+      opacity: 0.25;
+      filter: blur(3px) grayscale(40%);
+    }
+    /* Further left */
+    .carousel-slide[data-pos="-2"] {
+      z-index: 1;
+      transform: translateX(-115%) scale(0.65);
+      opacity: 0.25;
+      filter: blur(3px) grayscale(40%);
+    }
+    /* Hidden */
+    .carousel-slide[data-pos="hidden"] {
+      z-index: 0;
+      transform: translateX(150%) scale(0.5);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--ink2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s var(--ease);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .carousel-arrow:hover {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+    .carousel-arrow-left { left: 1rem; }
+    .carousel-arrow-right { right: 1rem; }
+    [data-theme="dark"] .carousel-arrow { background: var(--bg2); }
+
+    .carousel-caption {
+      text-align: center;
+      margin-top: 1rem;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--ink3);
+      min-height: 1.5em;
+      transition: opacity 0.3s;
+    }
+
+    /* ── ABOUT ──────────────────────────────────── */
+    #about { background: var(--bg2); border-radius: 0; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text { font-size: 1.05rem; color: var(--ink2); line-height: 1.85; }
+    .about-text p + p { margin-top: 1.2rem; }
+    .about-text strong { color: var(--ink); font-weight: 500; }
+    .about-text a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+    .about-text a:hover { border-bottom-color: var(--accent); }
+    .cv-block {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    .cv-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 0.5px solid var(--border2);
+    }
+    .cv-row:last-child { border-bottom: none; }
+    .cv-year {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink3);
+      min-width: 68px;
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+    .cv-role { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+    .cv-place {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 1px;
+    }
+
+    /* ── CONTACT ────────────────────────────────── */
+    #contact {
+      text-align: center;
+      background: var(--ink);
+      color: var(--bg);
+      max-width: 100%;
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
+    }
+    #contact .section-header {
+      justify-content: center;
+      border-bottom-color: rgba(255,255,255,0.1);
+    }
+    #contact .section-num { color: rgba(255,255,255,0.3); }
+    #contact h2 { color: var(--bg); }
+    .contact-sub {
+      font-size: 1.05rem;
+      color: rgba(245,242,235,0.6);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .contact-links-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 0.65rem 1.5rem;
+      border-radius: var(--r);
+      letter-spacing: 0.03em;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .contact-link.primary { background: var(--bg); color: var(--ink); }
+    .contact-link.primary:hover { background: rgba(245,242,235,0.9); transform: translateY(-1px); }
+    .contact-link.secondary {
+      background: transparent;
+      color: rgba(245,242,235,0.7);
+      border: 0.5px solid rgba(245,242,235,0.2);
+    }
+    .contact-link.secondary:hover { border-color: rgba(245,242,235,0.5); color: var(--bg); }
+
+    /* ── FOOTER ─────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: var(--ink3);
+      text-align: center;
+      padding: 1.5rem;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      border-top: 0.5px solid rgba(255,255,255,0.05);
+    }
+
+    /* ── SCROLL ANIMATIONS ──────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 768px) {
+      #home { grid-template-columns: 1fr; padding-top: 80px; }
+      .hero-right { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .nav-links { gap: 1.2rem; }
+      .paper-item { grid-template-columns: 1fr; }
+      .paper-expand-icon { display: none; }
+      .paper-preview-img { display: none; }
+      .tl-item { min-width: 110px; }
+      .tl-popup { min-width: 200px; max-width: 240px; }
+      .timeline-container { padding: 0 2.5rem; }
+      .tl-arrow { width: 28px; height: 28px; font-size: 14px; }
+      .carousel-slide { width: 280px; height: 200px; }
+      .carousel-wrapper { height: 260px; }
+    }
+    @media (max-width: 480px) {
+      .nav-links .hide-mobile { display: none; }
+      .tl-legend { gap: 0.8rem; }
+      .carousel-slide { width: 220px; height: 160px; }
+      .carousel-wrapper { height: 220px; }
+      .carousel-slide[data-pos="1"],
+      .carousel-slide[data-pos="-1"] { transform: translateX(60%) scale(0.75); }
+      .carousel-slide[data-pos="-1"] { transform: translateX(-60%) scale(0.75); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <span class="nav-name">dario<span>.</span>dequarti</span>
+    <ul class="nav-links">
+      <li><a href="#research">Research</a></li>
+      <li><a href="#timeline">Recent</a></li>
+      <li class="hide-mobile"><a href="#about">About</a></li>
+      <li class="hide-mobile"><a href="#teaching">Teaching</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li>
+        <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">&#9789;</button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-wrapper">
+    <div class="hero-bg"></div>
+    <section id="home">
+      <div class="hero-left">
+        <div class="hero-tag">PhD Candidate &middot; Economics</div>
+        <h1>Dario<br>De Quarti</h1>
+        <p class="hero-bio">
+          Third-year PhD candidate at the <strong>Geneva Graduate Institute</strong>,
+          with a focus on <strong>development economics and trade</strong>.
+        </p>
+        <p class="hero-bio">
+          Supervised by <a href="https://www.juliacajalgrossi.com/" target="_blank"><strong>Pr. Cajal-Grossi</strong></a>
+          and <a href="https://clauderaisaro.github.io/" target="_blank"><strong>Pr. Raisaro</strong></a>.
+          Previously worked at the <strong>WTO</strong> and <strong>International Trade Centre</strong>.
+        </p>
+        <div class="hero-links">
+          <a href="https://linkedin.com/in/dario-de-quarti/" class="btn btn-outline" target="_blank">LinkedIn</a>
+          <a href="mailto:dario.dequarti@graduateinstitute.ch" class="btn btn-outline">Email</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="photo-frame">
+          <img src="pictures/foto_dequarti.jpg" alt="Dario De Quarti" />
+        </div>
+        <span class="affiliation-badge">Geneva Graduate Institute</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="section-header reveal">
+      <span class="section-num">01 /</span>
+      <h2>Research</h2>
+    </div>
+
+    <div class="fields-row reveal reveal-delay-1">
+      <span class="field-chip">Development Economics</span>
+      <span class="field-chip">Trade</span>
+      <span class="field-chip">Informality</span>
+      <span class="field-chip">Humanitarian Aid</span>
+    </div>
+
+    <!-- Ongoing Doctoral Research -->
+    <div class="research-subsection reveal">
+      <div class="research-sub-title">Ongoing Doctoral Research</div>
+      <div class="paper-list">
+        <div class="paper-item no-expand paper-with-preview">
+          <div>
+            <div class="paper-title">Organizing Humanitarian Aid in South Sudan</div>
+            <div class="paper-coauthors">Supported by ReCIPE CEPR and SurveyCTO</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;">
+            <span class="paper-status status-prog">In Progress</span>
+          </div>
+          <div class="paper-preview-img">
+            <img src="pictures/ssd_network_map.png" alt="South Sudan trade network map" />
+          </div>
+        </div>
+        <div class="paper-item no-expand paper-with-preview">
+          <div>
+            <div class="paper-title">Informality on the Intensive Margin in Zambia</div>
+            <div class="paper-coauthors">Supported by IGC, UNU-WIDER, STEG-CEPR</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;">
+            <span class="paper-status status-prog">In Progress</span>
+          </div>
+          <div class="paper-preview-img">
+            <img src="pictures/stop_crossing.jpg" alt="Stop crossing in Zambia" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policy Contributions -->
+    <div class="research-subsection reveal reveal-delay-1">
+      <div class="research-sub-title">Policy Contributions</div>
+      <div class="paper-list">
+        <div class="paper-item no-expand">
+          <div>
+            <div class="paper-title">E-invoicing adoption under loadshedding in Zambia</div>
+            <div class="paper-coauthors">with S. Jackson &mdash; IGC Policy Brief, 2025</div>
+            <div class="paper-links always-visible">
+              <a href="https://www.theigc.org/publications/e-invoicing-adoption-under-loadshedding-zambia" class="paper-link-btn" target="_blank">IGC Brief &#8599;</a>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;">
+            <span class="paper-status status-policy">Policy Brief</span>
+          </div>
+        </div>
+        <div class="paper-item no-expand">
+          <div>
+            <div class="paper-title">Trade Finance in West Africa</div>
+            <div class="paper-coauthors">IFC&ndash;WTO &mdash; Policy Report, 2022</div>
+            <div class="paper-links always-visible">
+              <a href="https://www.wto.org/english/res_e/publications_e/tfinwestafrica_e.htm" class="paper-link-btn" target="_blank">Report &#8599;</a>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;">
+            <span class="paper-status status-policy">Policy Report</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pre-Doctoral Working Paper -->
+    <div class="research-subsection reveal reveal-delay-2">
+      <div class="research-sub-title">Pre-Doctoral Working Paper</div>
+      <div class="paper-list">
+        <div class="paper-item" onclick="togglePaper(this)">
+          <div>
+            <div class="paper-title">A Novel Framework to Evaluate Changes in Access and Costs of Trade Finance</div>
+            <div class="paper-coauthors">with M. Auboin and E. Bekkers &mdash; WTO Working Paper, 2023</div>
+            <div class="paper-abstract-preview">
+              We develop a CGE framework to evaluate how changes in trade finance conditions affect trade flows.
+            </div>
+            <div class="paper-links">
+              <a href="https://www.wto.org/english/res_e/reser_e/ersd202301_e.htm" class="paper-link-btn" target="_blank" onclick="event.stopPropagation()">WTO Paper &#8599;</a>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;">
+            <span class="paper-status status-wp">Working Paper</span>
+            <span class="paper-expand-icon">+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENT WORK TIMELINE -->
+  <section id="timeline">
+    <div class="section-header reveal">
+      <span class="section-num">02 /</span>
+      <h2>Recent Work</h2>
+    </div>
+
+    <div class="timeline-container reveal">
+      <button class="tl-arrow tl-arrow-left disabled" id="tlLeft" aria-label="Scroll left">&#8249;</button>
+      <button class="tl-arrow tl-arrow-right" id="tlRight" aria-label="Scroll right">&#8250;</button>
+
+      <div class="timeline-viewport" id="tlViewport">
+        <div class="timeline-track" id="tlTrack">
+
+          <div class="tl-year-label"><span>2025</span></div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <img src="pictures/vic_falls.jpg" alt="Victoria Falls, Zambia" class="tl-popup-img" />
+              <div class="tl-popup-title">PhD Fellowship &mdash; IGC Zambia Evidence Lab</div>
+              <div class="tl-popup-desc">Funded research stay in Lusaka, Zambia. Partnership with the Ministry of Finance and the Zambia Revenue Authority.</div>
+              <a href="https://www.theigc.org/people/dario-de-quarti" class="tl-popup-link" target="_blank">IGC profile &#8599;</a>
+            </div>
+            <div class="tl-dot dot-fellowship"></div>
+            <div class="tl-date">Jul&ndash;Sep</div>
+            <div class="tl-label">PhD Fellowship &ndash; IGC Zambia Evidence Lab</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <img src="pictures/presenting.jpg" alt="Teaching research methods in Zambia" class="tl-popup-img" />
+              <div class="tl-popup-title">IGC Research Methods Workshop</div>
+              <div class="tl-popup-desc">Teaching research methods at an IGC event in Zambia.</div>
+            </div>
+            <div class="tl-dot dot-event"></div>
+            <div class="tl-date">Aug</div>
+            <div class="tl-label">IGC Research Methods Workshop</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <img src="pictures/roundtable.jpg" alt="IGC Roundtable" class="tl-popup-img" />
+              <div class="tl-popup-title">IGC Roundtable Discussion</div>
+              <div class="tl-popup-desc">Participated in policy roundtable on distributed solar solutions and SMEs in Zambia.</div>
+              <a href="https://www.theigc.org/people/dario-de-quarti" class="tl-popup-link" target="_blank">Learn more &#8599;</a>
+            </div>
+            <div class="tl-dot dot-event"></div>
+            <div class="tl-date">14 Oct</div>
+            <div class="tl-label">IGC Roundtable</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <div class="tl-popup-title">Policy Brief Published</div>
+              <div class="tl-popup-desc">"E-invoicing adoption under loadshedding in Zambia" &mdash; with S. Jackson.</div>
+              <a href="https://www.theigc.org/publications/e-invoicing-adoption-under-loadshedding-zambia" class="tl-popup-link" target="_blank">Read the brief &#8599;</a>
+            </div>
+            <div class="tl-dot dot-publication"></div>
+            <div class="tl-date">18 Nov</div>
+            <div class="tl-label">IGC Policy Brief</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <div class="tl-popup-title">PhD Grant &mdash; ReCIPE CEPR</div>
+              <div class="tl-popup-desc">Funding for survey work in South Sudan on humanitarian aid allocation.</div>
+            </div>
+            <div class="tl-dot dot-grant"></div>
+            <div class="tl-date">Nov</div>
+            <div class="tl-label">PhD Grant &ndash; ReCIPE CEPR</div>
+          </div>
+
+          <div class="tl-year-label"><span>2026</span></div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <div class="tl-popup-badge">Honorable Mention</div>
+              <div class="tl-popup-title">SurveyCTO &mdash; Research Grant</div>
+              <div class="tl-popup-desc">Primary Data Collection Research Grant for field survey infrastructure.</div>
+              <a href="https://www.surveycto.com/press-releases/2025-primary-data-collection-research-grant-winners/" class="tl-popup-link" target="_blank">Announcement &#8599;</a>
+            </div>
+            <div class="tl-dot dot-grant"></div>
+            <div class="tl-date">Feb</div>
+            <div class="tl-label">SurveyCTO &ndash; Research Grant</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <div class="tl-popup-title">PhD Day</div>
+              <div class="tl-popup-desc">Presented research progress at the PhD Day joint with the University of Geneva.</div>
+            </div>
+            <div class="tl-dot dot-event"></div>
+            <div class="tl-date">Feb</div>
+            <div class="tl-label">PhD Day joint with UNIGE</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <div class="tl-popup-title">PhD Grant &mdash; STEG CEPR</div>
+              <div class="tl-popup-desc">Funding for fieldwork and data analysis in Zambia.</div>
+            </div>
+            <div class="tl-dot dot-grant"></div>
+            <div class="tl-date">Apr</div>
+            <div class="tl-label">PhD Grant &ndash; STEG CEPR</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-popup">
+              <div class="tl-popup-title">PhD Fellowship &mdash; UNU-WIDER</div>
+              <div class="tl-popup-desc">Funded research stay in Helsinki, Finland.</div>
+            </div>
+            <div class="tl-dot dot-fellowship"></div>
+            <div class="tl-date">Apr&ndash;Jun</div>
+            <div class="tl-label">PhD Fellowship &ndash; UNU-WIDER</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-legend reveal reveal-delay-1">
+      <div class="tl-legend-item"><div class="tl-legend-dot lg-grant"></div> Grant</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot lg-fellowship"></div> Fellowship</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot lg-publication"></div> Publication</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot lg-event"></div> Event</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-num">03 /</span>
+      <h2>About</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm a third-year PhD candidate in Economics at the <strong>Geneva Graduate Institute</strong>,
+          supervised by <a href="https://www.juliacajalgrossi.com/" target="_blank"><strong>Pr. Cajal-Grossi</strong></a>
+          and <a href="https://clauderaisaro.github.io/" target="_blank"><strong>Pr. Raisaro</strong></a>.
+          My research interests are in <strong>development economics and trade</strong>.
+        </p>
+        <p>
+          Before the PhD, I worked as a Trade Information Specialist at the
+          <strong>International Trade Centre (UNCTAD/WTO)</strong> and as a Research Assistant
+          at the <strong>World Trade Organization</strong>. I hold an MSc in Economics
+          from the Geneva Graduate Institute and a BSc in Economics from HEC Lausanne.
+        </p>
+        <p>
+          I speak French, Italian, English, and some Portuguese.
+        </p>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="cv-block">
+          <div class="cv-row">
+            <div class="cv-year">2023 &ndash;</div>
+            <div class="cv-content">
+              <div class="cv-role">PhD in Economics</div>
+              <div class="cv-place">Geneva Graduate Institute</div>
+            </div>
+          </div>
+          <div class="cv-row">
+            <div class="cv-year">2022 &ndash; 23</div>
+            <div class="cv-content">
+              <div class="cv-role">Trade Information Specialist</div>
+              <div class="cv-place">International Trade Centre (UNCTAD/WTO)</div>
+            </div>
+          </div>
+          <div class="cv-row">
+            <div class="cv-year">2021 &ndash; 22</div>
+            <div class="cv-content">
+              <div class="cv-role">Research Assistant</div>
+              <div class="cv-place">World Trade Organization</div>
+            </div>
+          </div>
+          <div class="cv-row">
+            <div class="cv-year">2020 &ndash; 22</div>
+            <div class="cv-content">
+              <div class="cv-role">MSc Economics</div>
+              <div class="cv-place">Geneva Graduate Institute</div>
+            </div>
+          </div>
+          <div class="cv-row">
+            <div class="cv-year">2017 &ndash; 20</div>
+            <div class="cv-content">
+              <div class="cv-role">BSc Economics</div>
+              <div class="cv-place">HEC Lausanne</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEACHING -->
+  <section id="teaching">
+    <div class="section-header reveal">
+      <span class="section-num">04 /</span>
+      <h2>Teaching</h2>
+    </div>
+    <div class="reveal">
+      <div class="cv-block">
+        <div class="cv-row">
+          <div class="cv-year">2025 &ndash;</div>
+          <div class="cv-content">
+            <div class="cv-role">Teaching Assistant &mdash; Statistics, Economics (various Master-level courses)</div>
+            <div class="cv-place">Geneva Graduate Institute</div>
+          </div>
+        </div>
+        <div class="cv-row">
+          <div class="cv-year">Aug 2025</div>
+          <div class="cv-content">
+            <div class="cv-role">IGC Research Methods Workshop</div>
+            <div class="cv-place">International Growth Centre, Zambia</div>
+          </div>
+        </div>
+        <div class="cv-row">
+          <div class="cv-year">2018 &ndash; 20</div>
+          <div class="cv-content">
+            <div class="cv-role">Teaching Assistant &mdash; Macroeconomics, Microeconomics</div>
+            <div class="cv-place">University of Lausanne (HEC)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-num">05 /</span>
+      <h2>Get in Touch</h2>
+    </div>
+    <p class="contact-sub">
+      I'm happy to discuss research, potential collaborations, or anything else.
+      The best way to reach me is by email.
+    </p>
+    <div class="contact-links-row">
+      <a href="mailto:dario.dequarti@graduateinstitute.ch" class="contact-link primary">
+        &#9993; dario.dequarti@graduateinstitute.ch
+      </a>
+      <a href="https://linkedin.com/in/dario-de-quarti/" class="contact-link secondary" target="_blank">
+        &#8599; LinkedIn
+      </a>
+      <a href="https://www.graduateinstitute.ch/other-programmes/dario-de-quarti" class="contact-link secondary" target="_blank">
+        &#8599; IHEID Profile
+      </a>
+    </div>
+  </section>
+
+  <!-- BEYOND RESEARCH -->
+  <section id="football">
+    <div class="section-header reveal">
+      <span class="section-num">06 /</span>
+      <h2>Beyond Research</h2>
+    </div>
+    <p class="reveal" style="color:var(--ink2); font-size:1.05rem; max-width:600px; margin-bottom:2rem;">
+      National football referee in France until 2025 &mdash;
+      from Gambardella Cup to Ligue 2 matches &mdash;
+      and still refereeing in Switzerland.
+    </p>
+    <div class="carousel-wrapper reveal reveal-delay-1">
+      <button class="carousel-arrow carousel-arrow-left" id="carLeft" aria-label="Previous photo">&#8249;</button>
+      <button class="carousel-arrow carousel-arrow-right" id="carRight" aria-label="Next photo">&#8250;</button>
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide" data-caption="Gambardella Cup &mdash; tunnel">
+          <img src="pictures/gambardella_tunnel.jpg" alt="Gambardella Cup - tunnel" />
+        </div>
+        <div class="carousel-slide" data-caption="Paris FC &ndash; Bordeaux, Ligue 2">
+          <img src="pictures/paris fc bordeaux 2.jpg" alt="Paris FC vs Bordeaux" />
+        </div>
+        <div class="carousel-slide" data-caption="Rodez &ndash; Caen, Ligue 2">
+          <img src="pictures/Rodez_Caen 4eme.jpeg" alt="Rodez vs Caen" />
+        </div>
+        <div class="carousel-slide" data-caption="Gambardella Cup &mdash; match day">
+          <img src="pictures/gambardella_match.jpg" alt="Gambardella Cup match" />
+        </div>
+        <div class="carousel-slide" data-caption="Gambardella Cup &mdash; with D&eacute;sir&eacute; Dou&eacute;">
+          <img src="pictures/gambardella_desire_doue.jpeg" alt="With Désiré Doué" />
+        </div>
+        <div class="carousel-slide" data-caption="Last season in France">
+          <img src="pictures/arbitrage_dernier_match.jpg" alt="Last season in France" />
+        </div>
+      </div>
+    </div>
+    <div class="carousel-caption" id="carCaption"></div>
+    <p class="reveal reveal-delay-2" style="text-align:center; margin-top:1.5rem;">
+      <a href="https://www.fff.fr/arbitre/2544618874-dario-de-quarti.html" class="btn btn-outline" target="_blank">FFF Referee Profile &#8599;</a>
+    </p>
+  </section>
+
+  <footer>
+    &copy; 2025 Dario De Quarti
+  </footer>
+
+  <script>
+    /* ── THEME TOGGLE ─────────────────────────── */
+    const themeBtn = document.getElementById('themeToggle');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); themeBtn.textContent = '\u2600'; }
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        themeBtn.textContent = '\u263D';
+        localStorage.setItem('theme','light');
+      } else {
+        document.documentElement.setAttribute('data-theme','dark');
+        themeBtn.textContent = '\u2600';
+        localStorage.setItem('theme','dark');
+      }
+    });
+
+    /* ── PAPER EXPAND/COLLAPSE ────────────────── */
+    function togglePaper(el) {
+      if (el.classList.contains('no-expand')) return;
+      const wasOpen = el.classList.contains('open');
+      document.querySelectorAll('.paper-item.open').forEach(p => p.classList.remove('open'));
+      if (!wasOpen) el.classList.add('open');
+    }
+
+    /* ── TIMELINE ARROW NAV ───────────────────── */
+    (function() {
+      const track = document.getElementById('tlTrack');
+      const viewport = document.getElementById('tlViewport');
+      const leftBtn = document.getElementById('tlLeft');
+      const rightBtn = document.getElementById('tlRight');
+      let offset = 0;
+      const scrollStep = 260;
+
+      function getContentWidth() {
+        // Use the last child's right edge, not scrollWidth (which includes ::before)
+        var items = track.children;
+        if (items.length === 0) return 0;
+        var last = items[items.length - 1];
+        return last.offsetLeft + last.offsetWidth;
+      }
+      function getMaxOffset() {
+        return Math.max(0, getContentWidth() - viewport.clientWidth);
+      }
+      function updateArrows() {
+        const max = getMaxOffset();
+        leftBtn.classList.toggle('disabled', offset <= 0);
+        rightBtn.classList.toggle('disabled', offset >= max);
+      }
+      function scrollTo(newOffset) {
+        offset = Math.max(0, Math.min(newOffset, getMaxOffset()));
+        track.style.transform = 'translateX(' + (-offset) + 'px)';
+        updateArrows();
+      }
+      leftBtn.addEventListener('click', (e) => { e.stopPropagation(); scrollTo(offset - scrollStep); });
+      rightBtn.addEventListener('click', (e) => { e.stopPropagation(); scrollTo(offset + scrollStep); });
+
+      let touchStartX = 0, touchCurrentX = 0, isDragging = false;
+      viewport.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; touchCurrentX = touchStartX; isDragging = true; }, { passive: true });
+      viewport.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        touchCurrentX = e.touches[0].clientX;
+        const tempOffset = Math.max(0, Math.min(offset + (touchStartX - touchCurrentX), getMaxOffset()));
+        track.style.transform = 'translateX(' + (-tempOffset) + 'px)';
+      }, { passive: true });
+      viewport.addEventListener('touchend', () => { if (!isDragging) return; isDragging = false; scrollTo(offset + (touchStartX - touchCurrentX)); });
+
+      window.addEventListener('resize', () => { scrollTo(offset); });
+      // Start scrolled to the right (latest events visible)
+      function scrollToEnd() { scrollTo(getMaxOffset()); }
+      window.addEventListener('load', scrollToEnd);
+      setTimeout(scrollToEnd, 300);
+    })();
+
+    /* ── FOOTBALL CAROUSEL ────────────────────── */
+    (function() {
+      const slides = document.querySelectorAll('.carousel-slide');
+      const caption = document.getElementById('carCaption');
+      const leftBtn = document.getElementById('carLeft');
+      const rightBtn = document.getElementById('carRight');
+      let current = 0;
+      const total = slides.length;
+
+      function updateCarousel() {
+        slides.forEach((slide, i) => {
+          let diff = i - current;
+          // Wrap around for smooth feel
+          if (diff > Math.floor(total / 2)) diff -= total;
+          if (diff < -Math.floor(total / 2)) diff += total;
+
+          if (diff === 0) slide.setAttribute('data-pos', '0');
+          else if (diff === 1) slide.setAttribute('data-pos', '1');
+          else if (diff === -1) slide.setAttribute('data-pos', '-1');
+          else if (diff === 2) slide.setAttribute('data-pos', '2');
+          else if (diff === -2) slide.setAttribute('data-pos', '-2');
+          else slide.setAttribute('data-pos', 'hidden');
+        });
+        caption.innerHTML = slides[current].getAttribute('data-caption');
+      }
+
+      function goTo(index) {
+        current = ((index % total) + total) % total;
+        updateCarousel();
+      }
+
+      leftBtn.addEventListener('click', () => goTo(current - 1));
+      rightBtn.addEventListener('click', () => goTo(current + 1));
+
+      // Click on neighbor slides to navigate
+      slides.forEach((slide, i) => {
+        slide.addEventListener('click', () => {
+          if (slide.getAttribute('data-pos') !== '0') {
+            goTo(i);
+          }
+        });
+      });
+
+      updateCarousel();
+    })();
+
+    /* ── SCROLL REVEAL ────────────────────────── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ── NAV SHADOW ───────────────────────────── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').style.borderBottomColor =
+        window.scrollY > 10 ? 'var(--border)' : 'transparent';
+    }, { passive: true });
+  </script>
+</body>
+</html>
