@@ -555,27 +555,28 @@
       flex-shrink: 0;
     }
     .tl-dot:hover,
-    .tl-item:hover .tl-dot {
+    .tl-item:hover .tl-dot,
+    .tl-item.active .tl-dot {
       background: var(--accent);
       transform: scale(1.3);
       box-shadow: 0 0 0 4px rgba(42,74,127,0.15);
     }
     .tl-dot.dot-grant { border-color: #2a8a5a; }
-    .tl-dot.dot-grant:hover, .tl-item:hover .tl-dot.dot-grant { background: #2a8a5a; box-shadow: 0 0 0 4px rgba(42,138,90,0.15); }
+    .tl-dot.dot-grant:hover, .tl-item:hover .tl-dot.dot-grant, .tl-item.active .tl-dot.dot-grant { background: #2a8a5a; box-shadow: 0 0 0 4px rgba(42,138,90,0.15); }
     .tl-dot.dot-fellowship { border-color: var(--accent2); }
-    .tl-dot.dot-fellowship:hover, .tl-item:hover .tl-dot.dot-fellowship { background: var(--accent2); box-shadow: 0 0 0 4px rgba(200,80,42,0.15); }
+    .tl-dot.dot-fellowship:hover, .tl-item:hover .tl-dot.dot-fellowship, .tl-item.active .tl-dot.dot-fellowship { background: var(--accent2); box-shadow: 0 0 0 4px rgba(200,80,42,0.15); }
     .tl-dot.dot-publication { border-color: #5a3a8a; }
-    .tl-dot.dot-publication:hover, .tl-item:hover .tl-dot.dot-publication { background: #5a3a8a; box-shadow: 0 0 0 4px rgba(90,58,138,0.15); }
+    .tl-dot.dot-publication:hover, .tl-item:hover .tl-dot.dot-publication, .tl-item.active .tl-dot.dot-publication { background: #5a3a8a; box-shadow: 0 0 0 4px rgba(90,58,138,0.15); }
     .tl-dot.dot-event { border-color: var(--ink3); }
-    .tl-dot.dot-event:hover, .tl-item:hover .tl-dot.dot-event { background: var(--ink3); box-shadow: 0 0 0 4px rgba(154,150,144,0.15); }
+    .tl-dot.dot-event:hover, .tl-item:hover .tl-dot.dot-event, .tl-item.active .tl-dot.dot-event { background: var(--ink3); box-shadow: 0 0 0 4px rgba(154,150,144,0.15); }
 
     [data-theme="dark"] .tl-dot { background: var(--bg2); }
     [data-theme="dark"] .tl-dot.dot-grant { border-color: #4ac88a; }
-    [data-theme="dark"] .tl-dot.dot-grant:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-grant { background: #4ac88a; }
+    [data-theme="dark"] .tl-dot.dot-grant:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-grant, [data-theme="dark"] .tl-item.active .tl-dot.dot-grant { background: #4ac88a; }
     [data-theme="dark"] .tl-dot.dot-fellowship { border-color: #e8784a; }
-    [data-theme="dark"] .tl-dot.dot-fellowship:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-fellowship { background: #e8784a; }
+    [data-theme="dark"] .tl-dot.dot-fellowship:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-fellowship, [data-theme="dark"] .tl-item.active .tl-dot.dot-fellowship { background: #e8784a; }
     [data-theme="dark"] .tl-dot.dot-publication { border-color: #a888d8; }
-    [data-theme="dark"] .tl-dot.dot-publication:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-publication { background: #a888d8; }
+    [data-theme="dark"] .tl-dot.dot-publication:hover, [data-theme="dark"] .tl-item:hover .tl-dot.dot-publication, [data-theme="dark"] .tl-item.active .tl-dot.dot-publication { background: #a888d8; }
     [data-theme="dark"] .tl-arrow { background: var(--bg2); }
 
     .tl-date {
@@ -616,7 +617,8 @@
       transition: all 0.25s var(--ease);
       z-index: 10;
     }
-    .tl-item:hover .tl-popup {
+    .tl-item:hover .tl-popup,
+    .tl-item.active .tl-popup {
       opacity: 1;
       pointer-events: auto;
       transform: translateX(-50%) translateY(0);
@@ -1165,7 +1167,7 @@
               <img src="pictures/roundtable.jpg" alt="IGC Roundtable" class="tl-popup-img" />
               <div class="tl-popup-title">IGC Roundtable Discussion</div>
               <div class="tl-popup-desc">Participated in policy roundtable on distributed solar solutions and SMEs in Zambia.</div>
-              <a href="https://www.theigc.org/people/dario-de-quarti" class="tl-popup-link" target="_blank">Learn more &#8599;</a>
+              <a href="https://www.theigc.org/events/zambias-distributed-solar-roundtable" class="tl-popup-link" target="_blank">Learn more &#8599;</a>
             </div>
             <div class="tl-dot dot-event"></div>
             <div class="tl-date">14 Oct</div>
@@ -1513,6 +1515,26 @@
       function scrollToEnd() { scrollTo(getMaxOffset()); }
       window.addEventListener('load', scrollToEnd);
       setTimeout(scrollToEnd, 300);
+
+      // Click-to-lock: clicking a dot keeps the popup open so links are clickable
+      var items = track.querySelectorAll('.tl-item');
+      items.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+          // Don't lock if clicking a link inside the popup
+          if (e.target.closest('.tl-popup-link')) return;
+          var wasActive = item.classList.contains('active');
+          // Close any other active item
+          items.forEach(function(i) { i.classList.remove('active'); });
+          // Toggle this one
+          if (!wasActive) item.classList.add('active');
+        });
+      });
+      // Click outside timeline closes any locked popup
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.tl-item')) {
+          items.forEach(function(i) { i.classList.remove('active'); });
+        }
+      });
     })();
 
     /* ── CAROUSEL (generic, works for multiple instances) ── */
