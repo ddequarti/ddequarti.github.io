@@ -166,7 +166,7 @@
     /* ── HERO ───────────────────────────────────── */
     .hero-wrapper {
       position: relative;
-      min-height: 100vh;
+      min-height: auto;
       overflow: hidden;
     }
     .hero-bg {
@@ -185,7 +185,7 @@
     #home {
       position: relative;
       z-index: 1;
-      min-height: 100vh;
+      min-height: auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
@@ -311,6 +311,7 @@
       margin-bottom: 3rem;
       border-bottom: 0.5px solid var(--border);
       padding-bottom: 1rem;
+      flex-wrap: wrap;
     }
     .section-num {
       font-family: var(--mono);
@@ -326,6 +327,50 @@
       letter-spacing: -0.01em;
     }
 
+    /* ── NEWS BOX ──────────────────────────────── */
+    .news-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 5rem);
+    }
+    .news-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--bg);
+      border: 1px solid var(--accent);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--r);
+      box-shadow: 0 2px 12px rgba(42,74,127,0.08);
+    }
+    .news-badge {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .news-text {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      color: var(--ink2);
+      line-height: 1.6;
+    }
+    .news-text strong { color: var(--ink); }
+    [data-theme="dark"] .news-box {
+      background: var(--bg2);
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+
     /* ── RESEARCH ───────────────────────────────── */
     #research { background: var(--bg); }
     .research-subsection {
@@ -333,15 +378,55 @@
     }
     .research-subsection:last-child { margin-bottom: 0; }
     .research-sub-title {
-      font-family: var(--sans);
-      font-size: 12px;
+      font-family: var(--serif);
+      font-size: 1.15rem;
       font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink3);
+      letter-spacing: 0.01em;
+      color: var(--ink);
       margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 0.5px solid var(--border2);
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    /* Collapsible subsections */
+    .research-sub-title.collapsible {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: color 0.2s;
+    }
+    .research-sub-title.collapsible:hover { color: var(--accent); }
+    .research-sub-title.collapsible .subsection-count {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink3);
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.1rem 0.5rem;
+      margin-left: 0.5rem;
+    }
+    .research-sub-title.collapsible .subsection-toggle {
+      font-family: var(--sans);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ink3);
+      transition: color 0.2s;
+      margin-left: auto;
+    }
+    .research-sub-title.collapsible:hover .subsection-toggle { color: var(--accent); }
+    .research-subsection.open .subsection-toggle-plus { display: none; }
+    .research-subsection:not(.open) .subsection-toggle-minus { display: none; }
+    .research-subsection .paper-list.collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s var(--ease), opacity 0.3s;
+      opacity: 0;
+    }
+    .research-subsection.open .paper-list.collapsible-content {
+      max-height: 800px;
+      opacity: 1;
     }
     .paper-list { display: flex; flex-direction: column; gap: 0; }
     .paper-item {
@@ -719,6 +804,149 @@
       z-index: 2;
     }
 
+    /* View toggle */
+    .view-toggle {
+      display: flex;
+      gap: 0;
+      margin-left: auto;
+      border: 0.5px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    .view-toggle-btn {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 0.35rem 0.8rem;
+      background: transparent;
+      color: var(--ink3);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .view-toggle-btn:not(:last-child) { border-right: 0.5px solid var(--border); }
+    .view-toggle-btn.active { background: var(--ink); color: var(--bg); }
+    .view-toggle-btn:not(.active):hover { background: var(--bg2); color: var(--ink2); }
+
+    /* List view */
+    .tl-list-view { display: none; max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 5rem); }
+    .tl-list-view.active { display: block; }
+    .timeline-container.active { display: block; }
+    .timeline-container:not(.active) { display: none; }
+    .tl-list-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 0.75rem;
+      padding: 0.75rem 0.5rem;
+      border-bottom: 0.5px solid var(--border);
+      transition: background 0.15s;
+      position: relative;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--ink2);
+    }
+    .tl-list-row:hover { background: var(--bg); }
+    .tl-list-date {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink3);
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+    .tl-list-title {
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .tl-list-desc {
+      font-size: 0.82rem;
+      color: var(--ink3);
+      margin-top: 0.15rem;
+    }
+    .tl-list-type {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      padding: 0.15rem 0.45rem;
+      border-radius: 10px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .tl-list-type.lt-grant { background: #eef8f2; color: #2a8a5a; border: 0.5px solid #a8d8c0; }
+    .tl-list-type.lt-fellowship { background: #fdf2ee; color: var(--accent2); border: 0.5px solid #e8b8a0; }
+    .tl-list-type.lt-publication { background: #f3eef8; color: #5a3a8a; border: 0.5px solid #c0a8e0; }
+    .tl-list-type.lt-event { background: var(--bg2); color: var(--ink3); border: 0.5px solid var(--border); }
+    [data-theme="dark"] .tl-list-type.lt-grant { background: #0a2018; color: #4ac88a; border-color: #1a4030; }
+    [data-theme="dark"] .tl-list-type.lt-fellowship { background: #201008; color: #e8784a; border-color: #4a2010; }
+    [data-theme="dark"] .tl-list-type.lt-publication { background: #1a1028; color: #a888d8; border-color: #3a2860; }
+    [data-theme="dark"] .tl-list-type.lt-event { background: var(--bg2); color: var(--ink3); border-color: var(--border); }
+    [data-theme="dark"] .tl-list-row:hover { background: var(--bg2); }
+    .tl-list-year-header {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      padding: 1rem 0.5rem 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    /* List view hover popups */
+    .tl-list-row-wrap {
+      position: relative;
+    }
+    .tl-list-popup {
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 4px);
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 0.8rem;
+      min-width: 220px;
+      max-width: 280px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: all 0.25s var(--ease);
+      z-index: 10;
+    }
+    .tl-list-row-wrap:hover .tl-list-popup,
+    .tl-list-row-wrap.active .tl-list-popup {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .tl-list-popup img {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      border: 0.5px solid var(--border2);
+    }
+    .tl-list-popup-title {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .tl-list-popup-desc {
+      font-size: 0.8rem;
+      color: var(--ink2);
+      line-height: 1.5;
+      margin-bottom: 0.4rem;
+    }
+    .tl-list-popup-link {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+    }
+    .tl-list-popup-link:hover { text-decoration: underline; }
+    [data-theme="dark"] .tl-list-popup { background: var(--bg2); }
+
     /* Timeline legend */
     .tl-legend {
       max-width: 1100px;
@@ -748,7 +976,45 @@
 
     /* ── TEACHING ──────────────────────────────── */
     #teaching { background: var(--bg); }
-    #teaching .cv-block { max-width: 700px; }
+    .teaching-layout {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+    .teaching-layout .cv-block { max-width: 700px; flex: 1; }
+    .office-hours-card {
+      flex-shrink: 0;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .office-hours-label {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink3);
+      letter-spacing: 0.05em;
+    }
+    .office-hours-link {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--r);
+      background: var(--ink);
+      color: var(--bg);
+      transition: all 0.2s var(--ease);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .office-hours-link:hover { background: var(--accent); transform: translateY(-1px); }
 
     /* ── FOOTBALL CAROUSEL ─────────────────────── */
     #football {
@@ -986,13 +1252,6 @@
     .reveal-delay-3 { transition-delay: 0.3s; }
 
     /* ── RESPONSIVE ─────────────────────────────── */
-    /* Tablets (Surface Pro, iPad Pro) — reduce hero vertical space */
-    @media (min-width: 769px) and (max-width: 1100px) {
-      .hero-wrapper { min-height: auto; }
-      #home { min-height: auto; padding-top: 80px; padding-bottom: 3rem; }
-      .hero-left { padding: 2rem 0; }
-    }
-
     @media (max-width: 768px) {
       /* Mobile hero */
       #home {
@@ -1049,6 +1308,25 @@
         font-size: 0.95rem;
         margin-bottom: 0.8rem;
       }
+
+      /* Teaching layout on mobile */
+      .teaching-layout { flex-direction: column; align-items: center; }
+
+      /* View toggle on mobile */
+      .view-toggle {
+        width: auto;
+        margin: 0 auto;
+      }
+      /* List view: stack rows on mobile */
+      .tl-list-row {
+        grid-template-columns: auto auto;
+        gap: 0.4rem;
+      }
+      .tl-list-main {
+        grid-column: 1 / -1;
+        order: 3;
+      }
+      .tl-list-popup { display: none; }
 
       /* Other sections */
       .about-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -1117,9 +1395,18 @@
         <div class="photo-frame">
           <img src="pictures/foto_dequarti.jpg" alt="Dario De Quarti" />
         </div>
-        <span class="affiliation-badge">Geneva Graduate Institute</span>
       </div>
     </section>
+    <!-- NEWS -->
+    <div class="news-bar" style="padding-bottom:clamp(2rem,4vw,3rem);">
+      <div class="news-box reveal">
+        <span class="news-badge">New</span>
+        <div class="news-text">
+          From April to June 2026, I'll be joining the <strong>UNU-WIDER PhD Fellowship</strong> in Helsinki.
+          Feel free to <a href="mailto:dario.dequarti@graduateinstitute.ch" style="color:var(--accent);border-bottom:1px solid var(--accent);">reach out</a> if you'd like to connect there!
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- RESEARCH -->
@@ -1137,9 +1424,9 @@
     </div>
 
     <!-- Ongoing Doctoral Research -->
-    <div class="research-subsection reveal">
-      <div class="research-sub-title">Ongoing Doctoral Research</div>
-      <div class="paper-list">
+    <div class="research-subsection open reveal" id="doctoral-section">
+      <div class="research-sub-title collapsible" onclick="toggleSubsection('doctoral-section')">Ongoing Doctoral Research <span class="subsection-count">2</span> <span class="subsection-toggle"><span class="subsection-toggle-plus">+</span><span class="subsection-toggle-minus">&minus;</span></span></div>
+      <div class="paper-list collapsible-content">
         <div class="paper-item paper-with-preview" onclick="togglePaper(this)">
           <div>
             <div class="paper-title">Organizing Humanitarian Aid in South Sudan</div>
@@ -1176,9 +1463,9 @@
     </div>
 
     <!-- Policy Contributions -->
-    <div class="research-subsection reveal reveal-delay-1">
-      <div class="research-sub-title">Policy Contributions</div>
-      <div class="paper-list">
+    <div class="research-subsection reveal reveal-delay-1" id="policy-section">
+      <div class="research-sub-title collapsible" onclick="toggleSubsection('policy-section')">Policy Contributions <span class="subsection-count">2</span> <span class="subsection-toggle"><span class="subsection-toggle-plus">+</span><span class="subsection-toggle-minus">&minus;</span></span></div>
+      <div class="paper-list collapsible-content">
         <div class="paper-item no-expand">
           <div>
             <div class="paper-title">E-invoicing adoption under loadshedding in Zambia</div>
@@ -1207,9 +1494,9 @@
     </div>
 
     <!-- Pre-Doctoral Working Paper -->
-    <div class="research-subsection reveal reveal-delay-2">
-      <div class="research-sub-title">Pre-Doctoral Working Paper</div>
-      <div class="paper-list">
+    <div class="research-subsection reveal reveal-delay-2" id="predoc-section">
+      <div class="research-sub-title collapsible" onclick="toggleSubsection('predoc-section')">Pre-Doctoral Working Paper <span class="subsection-count">1</span> <span class="subsection-toggle"><span class="subsection-toggle-plus">+</span><span class="subsection-toggle-minus">&minus;</span></span></div>
+      <div class="paper-list collapsible-content">
         <div class="paper-item" onclick="togglePaper(this)">
           <div>
             <div class="paper-title">A Novel Framework to Evaluate Changes in Access and Costs of Trade Finance</div>
@@ -1235,9 +1522,13 @@
     <div class="section-header reveal">
       <span class="section-num">02 /</span>
       <h2>Recent Work</h2>
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" id="viewTimeline" onclick="switchView('timeline')">&#9679; Timeline</button>
+        <button class="view-toggle-btn" id="viewList" onclick="switchView('list')">&#9776; List</button>
+      </div>
     </div>
 
-    <div class="timeline-container reveal">
+    <div class="timeline-container reveal active" id="tlContainer">
       <button class="tl-arrow tl-arrow-left disabled" id="tlLeft" aria-label="Scroll left">&#8249;</button>
       <button class="tl-arrow tl-arrow-right" id="tlRight" aria-label="Scroll right">&#8250;</button>
 
@@ -1350,11 +1641,104 @@
       </div>
     </div>
 
-    <div class="tl-legend reveal reveal-delay-1">
+    <div class="tl-legend reveal reveal-delay-1" id="tlLegend">
       <div class="tl-legend-item"><div class="tl-legend-dot lg-grant"></div> Grant</div>
       <div class="tl-legend-item"><div class="tl-legend-dot lg-fellowship"></div> Fellowship</div>
       <div class="tl-legend-item"><div class="tl-legend-dot lg-publication"></div> Publication</div>
       <div class="tl-legend-item"><div class="tl-legend-dot lg-event"></div> Event</div>
+    </div>
+
+    <div class="tl-list-view" id="tlListView">
+      <div class="tl-list-year-header">2026</div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">Apr&ndash;Jun</div>
+        <div class="tl-list-main"><div class="tl-list-title">PhD Fellowship &mdash; UNU-WIDER</div><div class="tl-list-desc">Funded research stay in Helsinki, Finland</div></div>
+        <div><span class="tl-list-type lt-fellowship">Fellowship</span></div>
+        <div class="tl-list-popup">
+          <div class="tl-list-popup-title">PhD Fellowship &mdash; UNU-WIDER</div>
+          <div class="tl-list-popup-desc">Funded research stay in Helsinki, Finland.</div>
+        </div>
+      </div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">Apr</div>
+        <div class="tl-list-main"><div class="tl-list-title">PhD Grant &mdash; STEG CEPR</div><div class="tl-list-desc">Funding for fieldwork and data analysis in Zambia</div></div>
+        <div><span class="tl-list-type lt-grant">Grant</span></div>
+        <div class="tl-list-popup">
+          <div class="tl-list-popup-title">PhD Grant &mdash; STEG CEPR</div>
+          <div class="tl-list-popup-desc">Funding for fieldwork and data analysis in Zambia.</div>
+        </div>
+      </div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">Feb</div>
+        <div class="tl-list-main"><div class="tl-list-title">PhD Day</div><div class="tl-list-desc">Presented research at PhD Day joint with University of Geneva</div></div>
+        <div><span class="tl-list-type lt-event">Event</span></div>
+        <div class="tl-list-popup">
+          <div class="tl-list-popup-title">PhD Day</div>
+          <div class="tl-list-popup-desc">Presented research progress at the PhD Day joint with the University of Geneva.</div>
+        </div>
+      </div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">Feb</div>
+        <div class="tl-list-main"><div class="tl-list-title">SurveyCTO &mdash; Research Grant</div><div class="tl-list-desc">Primary Data Collection Research Grant &mdash; Honorable Mention</div></div>
+        <div><span class="tl-list-type lt-grant">Grant</span></div>
+        <div class="tl-list-popup">
+          <div class="tl-list-popup-title">SurveyCTO &mdash; Research Grant</div>
+          <div class="tl-list-popup-desc">Primary Data Collection Research Grant for field survey infrastructure.</div>
+          <a href="https://www.surveycto.com/press-releases/2025-primary-data-collection-research-grant-winners/" class="tl-list-popup-link" target="_blank">Announcement &#8599;</a>
+        </div>
+      </div>
+      <div class="tl-list-year-header">2025</div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">Nov</div>
+        <div class="tl-list-main"><div class="tl-list-title">PhD Grant &mdash; ReCIPE CEPR</div><div class="tl-list-desc">Funding for survey work in South Sudan on humanitarian aid</div></div>
+        <div><span class="tl-list-type lt-grant">Grant</span></div>
+        <div class="tl-list-popup">
+          <div class="tl-list-popup-title">PhD Grant &mdash; ReCIPE CEPR</div>
+          <div class="tl-list-popup-desc">Funding for survey work in South Sudan on humanitarian aid allocation.</div>
+        </div>
+      </div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">18 Nov</div>
+        <div class="tl-list-main"><div class="tl-list-title">IGC Policy Brief Published</div><div class="tl-list-desc">"E-invoicing adoption under loadshedding in Zambia" &mdash; with S. Jackson</div></div>
+        <div><span class="tl-list-type lt-publication">Publication</span></div>
+        <div class="tl-list-popup">
+          <div class="tl-list-popup-title">Policy Brief Published</div>
+          <div class="tl-list-popup-desc">"E-invoicing adoption under loadshedding in Zambia" &mdash; with S. Jackson.</div>
+          <a href="https://www.theigc.org/publications/e-invoicing-adoption-under-loadshedding-zambia" class="tl-list-popup-link" target="_blank">Read the brief &#8599;</a>
+        </div>
+      </div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">14 Oct</div>
+        <div class="tl-list-main"><div class="tl-list-title">IGC Roundtable Discussion</div><div class="tl-list-desc">Policy roundtable on distributed solar solutions and SMEs in Zambia</div></div>
+        <div><span class="tl-list-type lt-event">Event</span></div>
+        <div class="tl-list-popup">
+          <img src="pictures/roundtable.jpg" alt="IGC Roundtable" />
+          <div class="tl-list-popup-title">IGC Roundtable Discussion</div>
+          <div class="tl-list-popup-desc">Participated in policy roundtable on distributed solar solutions and SMEs in Zambia.</div>
+          <a href="https://www.theigc.org/events/zambias-distributed-solar-roundtable" class="tl-list-popup-link" target="_blank">Learn more &#8599;</a>
+        </div>
+      </div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">Aug</div>
+        <div class="tl-list-main"><div class="tl-list-title">IGC Research Methods Workshop</div><div class="tl-list-desc">Teaching research methods at an IGC event in Zambia</div></div>
+        <div><span class="tl-list-type lt-event">Event</span></div>
+        <div class="tl-list-popup">
+          <img src="pictures/presenting.jpg" alt="Teaching research methods" />
+          <div class="tl-list-popup-title">IGC Research Methods Workshop</div>
+          <div class="tl-list-popup-desc">Teaching research methods at an IGC event in Zambia.</div>
+        </div>
+      </div>
+      <div class="tl-list-row tl-list-row-wrap">
+        <div class="tl-list-date">Jul&ndash;Sep</div>
+        <div class="tl-list-main"><div class="tl-list-title">PhD Fellowship &mdash; IGC Zambia Evidence Lab</div><div class="tl-list-desc">Funded research stay in Lusaka, Zambia</div></div>
+        <div><span class="tl-list-type lt-fellowship">Fellowship</span></div>
+        <div class="tl-list-popup">
+          <img src="pictures/vic_falls.jpg" alt="Victoria Falls, Zambia" />
+          <div class="tl-list-popup-title">PhD Fellowship &mdash; IGC Zambia Evidence Lab</div>
+          <div class="tl-list-popup-desc">Funded research stay in Lusaka, Zambia. Partnership with the Ministry of Finance and the Zambia Revenue Authority.</div>
+          <a href="https://www.theigc.org/people/dario-de-quarti" class="tl-list-popup-link" target="_blank">IGC profile &#8599;</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1430,7 +1814,7 @@
       <span class="section-num">04 /</span>
       <h2>Teaching</h2>
     </div>
-    <div class="reveal">
+    <div class="teaching-layout reveal">
       <div class="cv-block">
         <div class="cv-row">
           <div class="cv-year">2025 &ndash;</div>
@@ -1453,6 +1837,10 @@
             <div class="cv-place">University of Lausanne (HEC)</div>
           </div>
         </div>
+      </div>
+      <div class="office-hours-card">
+        <span class="office-hours-label">Current students</span>
+        <a href="https://bit.ly/dario-office-hours" class="office-hours-link" target="_blank">Office Hours &#8599;</a>
       </div>
     </div>
   </section>
@@ -1584,6 +1972,51 @@
         localStorage.setItem('theme','dark');
       }
     });
+
+    /* ── TIMELINE / LIST VIEW TOGGLE ─────────────── */
+    function switchView(view) {
+      var tlContainer = document.getElementById('tlContainer');
+      var tlLegend = document.getElementById('tlLegend');
+      var listView = document.getElementById('tlListView');
+      var btnTimeline = document.getElementById('viewTimeline');
+      var btnList = document.getElementById('viewList');
+      if (view === 'list') {
+        tlContainer.classList.remove('active');
+        tlLegend.style.display = 'none';
+        listView.classList.add('active');
+        btnTimeline.classList.remove('active');
+        btnList.classList.add('active');
+      } else {
+        tlContainer.classList.add('active');
+        tlLegend.style.display = '';
+        listView.classList.remove('active');
+        btnTimeline.classList.add('active');
+        btnList.classList.remove('active');
+      }
+    }
+
+    /* ── LIST VIEW CLICK-TO-LOCK ──────────────── */
+    (function() {
+      var rows = document.querySelectorAll('.tl-list-row-wrap');
+      rows.forEach(function(row) {
+        row.addEventListener('click', function(e) {
+          if (e.target.closest('.tl-list-popup-link')) return;
+          var wasActive = row.classList.contains('active');
+          rows.forEach(function(r) { r.classList.remove('active'); });
+          if (!wasActive) row.classList.add('active');
+        });
+      });
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.tl-list-row-wrap')) {
+          rows.forEach(function(r) { r.classList.remove('active'); });
+        }
+      });
+    })();
+
+    /* ── RESEARCH SUBSECTION COLLAPSE ───────────── */
+    function toggleSubsection(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
 
     /* ── PAPER EXPAND/COLLAPSE ────────────────── */
     function togglePaper(el) {
